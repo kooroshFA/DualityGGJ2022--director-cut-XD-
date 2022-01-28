@@ -6,6 +6,7 @@ TagManager:
   tags:
   - soul
   - interactable
+  - body
   layers:
   - Default
   - TransparentFX

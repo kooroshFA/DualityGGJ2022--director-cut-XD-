@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyFollows : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class EnemyFollows : MonoBehaviour
         rb.rotation = angle;
         direction.Normalize();
         movement = direction;
-        Debug.Log("isSoul" + pcontrol.isSoul);
     }
 
     void FixedUpdate()
@@ -35,12 +35,12 @@ public class EnemyFollows : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "soul" && pcontrol.isSoul)
+        if(collision.tag == "soul" && (pcontrol == null || pcontrol.isSoul))
         {
             Time.timeScale = 0;
-            menu.SetActive(true);
+            menu.gameObject.SetActive(true);
         }
-        if(collision.tag == "interactable" && pcontrol.isSoul)
+        if(collision.tag == "interactable" &&(pcontrol == null || pcontrol.isSoul))
         {
             gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
             if(collision.GetComponent<CircleCollider2D>())
@@ -51,7 +51,7 @@ public class EnemyFollows : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Untagged" && pcontrol.isSoul)
+        if (collision.gameObject.tag == "Untagged" &&(pcontrol == null || pcontrol.isSoul))
         {
             gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         }

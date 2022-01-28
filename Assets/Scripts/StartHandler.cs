@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartHandler : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class StartHandler : MonoBehaviour
     [SerializeField] private Image[] images;
     bool firstTime=true;
     int counter;
-
+    float time = 3;
+    bool end;
     private void Start()
     {
         foreach (var v in images)
@@ -47,9 +49,12 @@ public class StartHandler : MonoBehaviour
             {
                 StartCoroutine("WAIT");
                 StartCoroutine("FadeMenu", images[i]);
-                images[i].gameObject.SetActive(false);
+                //images[i].gameObject.SetActive(false);
                 StopCoroutine("FadeMenu");
             }
+            end = true;
+            StartCoroutine("WAIT");
+            
         }
 
     }
@@ -73,10 +78,11 @@ public class StartHandler : MonoBehaviour
     {
         foreach (var v in images)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.7f);
             v.gameObject.SetActive(true);
             StartCoroutine("ShowImage", v);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(time);
+            time -= 0.4f;
             StopCoroutine("ShowImage");
             counter++;
         }
@@ -146,5 +152,7 @@ public class StartHandler : MonoBehaviour
     IEnumerator WAIT()
     {
         yield return new WaitForSeconds(2f);
+        if(end)
+            SceneManager.LoadScene("Prologue");
     }
 }
