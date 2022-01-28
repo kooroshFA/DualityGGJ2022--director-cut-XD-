@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class SoulMovement : MonoBehaviour
 {
+    [SerializeField]Transform cam;
     private Rigidbody2D rb;
     [SerializeField]private float HorizontalSpeed = 200f;
     [SerializeField]private float VerticalSpeed = 120f;

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    bool isSoul = false;
+    public bool isSoul = false;
     [SerializeField] private GameObject soul;
     [SerializeField] private GameObject follower;
+    [SerializeField] private BoxCollider2D enemy;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +33,9 @@ public class PlayerController : MonoBehaviour
             soul.transform.position = gameObject.transform.position;
             soul.SetActive(false);
             follower.GetComponent<EnemyFollows>().enabled = false;
-            follower.transform.position = gameObject.transform.position + new Vector3(15, 0, 0);
+            follower.transform.position = gameObject.transform.position + new Vector3(20, 0, 0);
             gameObject.GetComponent<BodyMovement>().enabled = true;
+            enemy.isTrigger = true;
         }
     }
 }
