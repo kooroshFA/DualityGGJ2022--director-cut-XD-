@@ -10,7 +10,7 @@ public class SoulMovement : MonoBehaviour
     [SerializeField] private float HorizontalSpeed = 200f;
     [SerializeField] private float VerticalSpeed = 120f;
     private Vector2 move;
-
+    bool facingRight;
     [SerializeField] PrologueManager proMan;
     // Start is called before the first frame update
     void Start()
@@ -26,10 +26,25 @@ public class SoulMovement : MonoBehaviour
 
         move = new Vector2(Horizontal * Time.deltaTime * HorizontalSpeed,
          Vertical * Time.deltaTime * VerticalSpeed);
+        if (Horizontal < 0)
+        {
+            facingRight = false;
+        }
+        else
+        {
+            facingRight = true;
+        }
     }
     void FixedUpdate()
     {
         rb.velocity = move;
+    }
+    private void LateUpdate()
+    {
+        if ((facingRight && transform.localScale.x < 0) || (!facingRight && transform.localScale.x > 0))
+        {
+            transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
