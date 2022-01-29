@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BodyMovement : MonoBehaviour
 {
+    private bool isJump = true;
     private Rigidbody2D rb;
     [SerializeField] private float HorizontalSpeed;
     [SerializeField] private float jumpSpeed;
@@ -28,9 +29,10 @@ public class BodyMovement : MonoBehaviour
         
         move = new Vector2(Horizontal * Time.deltaTime * HorizontalSpeed, 0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isJump)
         {
             rb.AddForce(new Vector2(0, jumpSpeed*Time.smoothDeltaTime));
+            StartCoroutine(wasteTime());
         }
 
         if(Horizontal == 0)
@@ -54,11 +56,21 @@ public class BodyMovement : MonoBehaviour
     void FixedUpdate() {
         rb.velocity = move;
     }
-    private void LateUpdate()
+    IEnumerator wasteTime()
+    {
+        isJump = false;
+        yield return new WaitForSeconds(1);
+        isJump = true;
+    }
+<<<<<<< Updated upstream
+        private void LateUpdate()
     {
         if((facingRight && transform.localScale.x<0)||(!facingRight && transform.localScale.x>0))
         {
             transform.localScale = new Vector3(-1*transform.localScale.x,transform.localScale.y,transform.localScale.z);
         }
-    }
+=======
+   
+>>>>>>> Stashed changes
+    
 }
