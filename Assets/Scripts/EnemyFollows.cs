@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EnemyFollows : MonoBehaviour
 {
-    [SerializeField] GameObject menu;
+    [SerializeField] Image gameOver;
     public Transform player;
+    [SerializeField] private GameObject soulPlayer;
     private Rigidbody2D rb;
     private Vector2 movement;
     public float speed;
     public PlayerController pcontrol;
+   // public AudioSource auu { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+       // auu = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,6 +30,7 @@ public class EnemyFollows : MonoBehaviour
         rb.rotation = angle;
         direction.Normalize();
         movement = direction;
+       
     }
 
     void FixedUpdate()
@@ -37,8 +42,11 @@ public class EnemyFollows : MonoBehaviour
     {
         if(collision.tag == "soul" && (pcontrol == null || pcontrol.isSoul))
         {
-            Time.timeScale = 0;
-            menu.gameObject.SetActive(true);
+            //Time.timeScale = 0;
+            player.gameObject.SetActive(false);
+            soulPlayer.SetActive(false);
+            gameOver.gameObject.SetActive(true);
+            StartCoroutine(StartCounter());
         }
         if(collision.tag == "interactable" &&(pcontrol == null || pcontrol.isSoul))
         {
@@ -55,5 +63,10 @@ public class EnemyFollows : MonoBehaviour
         {
             gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         }
+    }
+    IEnumerator StartCounter()
+    {
+        yield return new WaitForSeconds(2.5f);
+        SceneManager.LoadScene("Start");
     }
 }

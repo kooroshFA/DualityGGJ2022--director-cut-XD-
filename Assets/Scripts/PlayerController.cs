@@ -8,10 +8,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject soul;
     [SerializeField] private GameObject follower;
     [SerializeField] private BoxCollider2D enemy;
+   // private AudioSource au;
+                            
 
     // Start is called before the first frame update
     void Start()
     {
+       // au = GetComponent<EnemyFollows>().GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour
             soul.SetActive(true);
             gameObject.GetComponent<BodyMovement>().enabled = false;
             follower.GetComponent<EnemyFollows>().enabled = true;
+           // au.Play();
         }
         if(!isSoul)
         {

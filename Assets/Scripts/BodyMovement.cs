@@ -12,6 +12,7 @@ public class BodyMovement : MonoBehaviour
     private Vector2 move;
     bool facingRight;
     private Animator anim;
+    private bool isJumped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,9 +29,11 @@ public class BodyMovement : MonoBehaviour
         
         move = new Vector2(Horizontal * Time.deltaTime * HorizontalSpeed, 0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumped)
         {
-            rb.AddForce(new Vector2(0, jumpSpeed*Time.smoothDeltaTime));
+            rb.AddForce(new Vector2(0, jumpSpeed* Time.deltaTime));
+            isJumped = true;
+            StartCoroutine(WasteTime());
         }
 
         if(Horizontal == 0)
@@ -59,6 +62,14 @@ public class BodyMovement : MonoBehaviour
         if((facingRight && transform.localScale.x<0)||(!facingRight && transform.localScale.x>0))
         {
             transform.localScale = new Vector3(-1*transform.localScale.x,transform.localScale.y,transform.localScale.z);
+        }
+    }
+    IEnumerator WasteTime()
+    {
+        if (isJumped)
+        {
+            yield return new WaitForSeconds(1);
+            isJumped = false;
         }
     }
 }
